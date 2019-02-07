@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table{
+            border : 1px solid black;
+            border-collapse: collapse;
+        }
+        td{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<center>
+  <h2 id="proteksi"></h2>
+  <table>
+    <thead>
+        <tr><th colspan = '4'>DAFTAR MANUSIA</th></tr>
+        <tr><td colspan = '4'><center>David Lohanda</center></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td colspan = '4'><input type="text" placeholder="Masukan Nama" id="inputNama"></td>    
+        </tr>
+        <tr>
+          <td colspan = '4'><input type="number" placeholder="Masukan Usia" id="inputUsia"></td>    
+        </tr>
+        <tr>
+          <td colspan = '4'>Kelamin : <input type="radio" value ="Pria" id="pria" name="sex">Pria <input type="radio" value ="Wanita" id="wanita" name="sex" >Wanita</td>    
+        </tr>
+        <tr>
+          <td colspan = '4'><input type="text" placeholder="Masukan Pekerjaan" id="inputPekerjaan"></td>    
+        </tr>
+        <tr>
+          <td colspan = '4'><input type="button" value="Submit" onclick= tambahManusia()></td>    
+        </tr>
+        <tr>
+          <td colspan = '4'></td>
+        </tr>
+        <tr>
+          <td colspan = '4' class="berdasarkan">Sort Berdasarkan</td>
+        </tr>
+        <tr>
+          <td><input type="button" value="Nama" id="nama" onclick =sortNama(arrManusia)></td>
+          <td><input type="button" value="Usia" id="usia" onclick =sortUsia(arrManusia)></td>
+          <td><input type="button" value="Kelamin" id="kelamin" onclick =sortKelamin(arrManusia)></td>
+          <td><input type="button" value="Pekerjaan" id="pekerjaan" onclick =sortPekerjaan(arrManusia)></td>
+        </tr>
+        <tr><td colspan = '4'>----------------------------------------------------------</td></tr>
+    </tbody>
+    <tfoot id="tampilkan">
+
+    </tfoot>
+  </table>
+</center>
+</body>
+</html>
+
+<script>
+//----------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------
+class Manusia{
+    constructor(nama,usia,kelamin,pekerjaan){
+        this.nama = nama
+        this.usia = usia
+        this.kelamin = kelamin
+        this.pekerjaan = pekerjaan
+    }
+}
+var arrManusia = []
+//-----------------------------------------------------------------------------------
+const tampil = (arr) => {
+    var hasil = ''
+    for(let i = 0 ; i < arr.length ; i++){
+        hasil +=  `<tr>
+                    <td>${arr[i].nama}</td>
+                    <td>${arr[i].usia}</td>
+                    <td>${arr[i].kelamin}</td>
+                    <td>${arr[i].pekerjaan}</td>
+                  </tr>`
+    }
+    document.getElementById('tampilkan').innerHTML = hasil
+}
+//-------------------------------------------------------------------------------------
+const tambahManusia = () => {
+    var nama = document.getElementById('inputNama').value
+    var usia = document.getElementById('inputUsia').value
+    var kelamin = ''
+    if(document.getElementById('pria').checked){
+    kelamin = 'Pria'
+    }else if(document.getElementById('wanita').checked){
+    kelamin = 'Wanita'
+    }
+    var pekerjaan = document.getElementById('inputPekerjaan').value
+    
+    if(nama == '' || usia == '' || kelamin== '' || pekerjaan == ''){
+      document.getElementById('proteksi').innerHTML = 'Harus Diisi Semua!!'
+    }else{
+        document.getElementById('proteksi').innerHTML = ''
+        arrManusia.push(new Manusia(nama,usia,kelamin,pekerjaan))
+        tampil(arrManusia)
+    }
+    nama = ''
+    usia = ''
+    kelamin = ''
+    pekerjaan = ''
+}
+//---------------------------------------------------------------------------------------
+const sortNama = (arr) =>{
+    var temp = []
+    for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].nama > arr[j+1].nama){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+      tampil(arrManusia)
+}
+//---------------------------------------------------------------------------------------
+const sortUsia = (arr) =>{
+    var temp = []
+    for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].usia > arr[j+1].usia){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+
+      for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].usia == arr[j+1].usia && arr[j].nama > arr[j+1].nama ){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+      tampil(arrManusia)
+}
+//---------------------------------------------------------------------------------------
+const sortPekerjaan = (arr) =>{
+    var temp = []
+    for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].pekerjaan > arr[j+1].pekerjaan){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+
+      for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].pekerjaan == arr[j+1].pekerjaan && arr[j].nama > arr[j+1].nama ){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+      tampil(arrManusia)
+}
+//---------------------------------------------------------------------------------------
+const sortKelamin = (arr) =>{
+    var temp = []
+    for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].kelamin > arr[j+1].kelamin){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+
+      for(let i = arr.length-1 ; i > 0 ; i--){
+        for(let j = 0 ; j < i ; j++)
+          if(arr[j].kelamin == arr[j+1].kelamin && arr[j].nama > arr[j+1].nama ){
+              var temp = arr[j]
+              arr[j] = arr[j+1]
+              arr[j+1] = temp
+          }
+      }
+      tampil(arrManusia)
+}
+
+
+</script>
