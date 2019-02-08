@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    .input{
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+    <form>
+        <fieldset>
+          <legend>Filter</legend>
+          <table id='satu'>
+          <tr>
+            <td>Nama</td><td><input type='text' id='filterNama'></td>
+          </tr>
+          <tr>
+            <td>Umur</td><td><input type='number' id='filterUmur'></td>
+          </tr>
+          <tr>
+             <td>Pekerjaan</td>
+             <td><select id='filterPekerjaan'></select></td>
+          </tr>
+          <tr>
+          <td colspan='2'><input type='button' value='Search' onclick=filter()></td>
+          </tr>   
+        </table>
+        </fieldset>
+        <fieldset>
+            <legend>Input Data</legend>
+            <table class ='dua'>
+              <tr>
+                <td class='input'><input type ='text' id='inputNama' placeholder="Masukan Nama"></td>
+                <td class='input'><input type ='text' id='inputUmur' placeholder="Masukan Umur"></td>
+                <td class='input'><input type ='text' id='inputPekerjaan' placeholder="Masukan Pekerjaan"></td>
+              </tr>
+              <tr>
+                <td><input type='button' value='Submit' id='submit' onclick=tambahData()></td>
+              </tr>
+              <tr>
+                <h2></h2>
+              </tr>
+            </table>
+          </fieldset>
+          <fieldset>
+              <legend>Tabel Data</legend>
+              <table class='tiga'>
+
+              </table>
+          </fieldset>
+      </form>
+      
+</body>
+</html>
+<script>
+//Object Manusia
+class Manusia{
+    constructor(nama,umur,pekerjaan){
+        this.nama = nama
+        this.umur = umur
+        this.pekerjaan = pekerjaan
+    }
+}
+
+//Array Manusia
+var arrManusia = []
+var arrPekerjaan = []
+
+//Function Tampil Data
+const tampil = (arr) => {
+    var tampilData = `<tr><th>Nama</th><th>Umur</th><th>Pekerjaan</th></tr>`
+    for(let i = 0 ; i < arr.length ; i++){
+        tampilData += `<tr>
+                         <td align='center'>${arr[i].nama}</td>
+                         <td align='center'>${arr[i].umur}</td>
+                         <td align='center'>${arr[i].pekerjaan}</td>
+                      </tr>`
+    }
+    document.getElementsByClassName('tiga')[0].innerHTML = tampilData
+}
+
+//Function Tambah Data
+const tambahData = () => {
+    var nama = document.getElementById('inputNama').value
+    var umur = document.getElementById('inputUmur').value
+    var pekerjaan = document.getElementById('inputPekerjaan').value
+    if(nama=='' || umur=='' || pekerjaan==''){
+        document.getElementsByTagName('h2')[0].innerHTML = 'Harus Diisi Semua!'
+    } else {
+        document.getElementsByTagName('h2')[0].innerHTML = ''
+        arrManusia.push(new Manusia(nama,umur,pekerjaan))
+        alert(arrManusia[0].nama)
+        tampil(arrManusia)
+        selectPekerjaan()
+        
+    }
+    
+    nama = ''
+    umur = ''
+    pekerjaan = ''
+}
+
+
+//Function Select Pekerjaan
+const selectPekerjaan = () => {
+    for(let i = 0 ; i < arrManusia ; i++){
+        arrPekerjaan.push(arrManusia[i].pekerjaan)        
+    }
+    alert(arrPekerjaan)
+    var uniquePekerjaan = [...new Set(arrPekerjaan)]
+    alert(uniquePekerjaan)
+    var pekerjaanFilter = ''
+    for(let i = 0 ; i < uniquePekerjaan.length ; i++){
+            pekerjaanFilter += `<option value ='${uniquePekerjaan[i]}'> ${uniquePekerjaan[i]} </option>`
+    }
+    document.getElementById('filterPekerjaan').innerHTML = pekerjaanFilter
+}
+</script>
